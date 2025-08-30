@@ -1,28 +1,20 @@
 pipeline {
     agent any
 
-    environment {
-        KUBECONFIG = "/var/lib/jenkins/.kube/config"
+    stages {
+        stage('List Kubernetes Resources') {
+            steps {
+                withKubeConfig([credentialsId: 'k8s']) {
+                    sh 'kubectl get services --all-namespaces'
+                    sh 'kubectl get deployments --all-namespaces'
+                }
+            }
+        }
     }
 
-    stages {
-        stage('Check kubectl version') {
-            steps {
-                echo 'Checking kubectl version...'
-                sh 'kubectl version --client'
-            }
+    post {
+        always {
+            echo "Kubernetes 列表查询完成"
         }
-
-        stage('List Kubernetes Nodes') {
-            steps {
-                echo 'Listing Kubernetes nodes...'
-                sh 'kubectl get nodes'
-            }
-        }
-
-        stage('List Pods in Default Namespace') {
-            steps {
-                echo 'Listing pods in default namespace...'
-                sh 'kubectl get pods'
-            }
-        }
+    }
+}
