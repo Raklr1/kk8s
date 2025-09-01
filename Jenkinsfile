@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('部署数据库') {
             steps {
-                withKubeConfig([credentialsId: 'k8s1']) {
+                //withKubeConfig([credentialsId: 'k8s1']) {
                     
                     bat 'kubectl apply -f mysqlpv.yaml'
                     bat 'kubectl apply -f init.yaml'
                     bat 'kubectl apply -f mysql-deployment.yaml'
                     bat 'kubectl apply -f mysql-service.yaml'
-                }
+                //}
             }
         }
         /*
