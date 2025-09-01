@@ -12,7 +12,8 @@ pipeline {
                     bat 'kubectl apply -f mysql-service.yaml'
                 }
             }
-        }/*
+        }
+        /*
         stage('部署后端') {
             steps {
                 withKubeConfig([credentialsId: 'k8s1']) {
@@ -29,8 +30,8 @@ pipeline {
                 }
             }
         }
+        */
     }
-*/
     post {
         always {
             echo "Kubernetes自动部署完成"
